@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { News } from './dto/news.dto';
 
 const news: News[] = [
@@ -25,5 +25,19 @@ export class AppService {
 
   async getAPieceOfNews(id: number): Promise<News> {
     return news[id - 1];
+  }
+
+  async updateNews(id: number, data: News): Promise<News[]> {
+    let updatingNews = news[id - 1];
+    if (updatingNews) {
+      updatingNews = {
+        ...updatingNews,
+        ...data,
+      };
+      news[id - 1] = updatingNews;
+      return news;
+    } else {
+      throw new InternalServerErrorException();
+    }
   }
 }

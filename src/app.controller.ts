@@ -6,6 +6,7 @@ import {
   Delete,
   Body,
   Query,
+  HttpCode,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { News } from './dto/news.dto';
@@ -20,12 +21,21 @@ export class AppController {
   }
 
   @Put('create')
-  async createNews(@Body() data: News): Promise<News[]> {
-    return this.appService.createNews(data);
+  async createNews(@Body() body: News): Promise<News[]> {
+    return this.appService.createNews(body);
   }
 
   @Get('get-one')
-  async getAPieceOfNews(@Query() data: { id: number }): Promise<News> {
-    return this.appService.getAPieceOfNews(data.id);
+  async getAPieceOfNews(@Query() query: { id: number }): Promise<News> {
+    return this.appService.getAPieceOfNews(query.id);
+  }
+
+  @Post('update')
+  @HttpCode(200)
+  async updateNews(
+    @Query() query: { id: number },
+    @Body() body: News,
+  ): Promise<News[]> {
+    return this.appService.updateNews(query.id, body);
   }
 }
