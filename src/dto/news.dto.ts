@@ -1,3 +1,5 @@
+import { Comments } from './comments.dto';
+
 export class News {
   id!: number;
 
@@ -10,4 +12,6 @@ export class News {
   description!: string;
 
   text!: string;
+
+  comments!: Comments[];
 }
